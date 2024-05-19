@@ -11,7 +11,7 @@ ENV MYSQL_PASSWORD=mangos
 RUN apt-get update && \
     apt-get install git wget -y && \
     git clone https://github.com/mangosthree/database.git -b ${MANGOS_DATABASE_VERSION} --recursive && \
-    chmod a+x launch_mysql.sh && \
+    chmod a+x ./launch_mysql.sh && \
     apt-get remove --purge --force-yes -y git wget && \
     apt-get -y autoremove && \
     rm -rf /var/lib/apt/lists/*
