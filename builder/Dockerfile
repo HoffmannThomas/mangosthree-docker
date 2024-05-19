@@ -1,4 +1,4 @@
-FROM gcc:7.3.0 as mangosthree/builder
+FROM gcc:12-bookworm as builder
 ARG MANGOS_SERVER_VERSION=master
 ARG THREAD_COUNT="-j4"
 

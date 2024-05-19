@@ -1,12 +1,12 @@
 services:
   builder:
-    image: mangosthree/builder
+    image: builder
     build: ./builder
 
   extractor:
     depends_on:
       - builder
-    image: mangosthree/extractor
+    image: extractor
     build: ./extractor
     volumes:
       - cata_client:/etc/mangos/cata_client
@@ -16,7 +16,7 @@ services:
       - dbc:/etc/mangos/dbc
 
   db:
-    image: mangosthree/database
+    image: database
     build: ./database
     volumes:
       - db_data:/var/lib/mysql
@@ -28,7 +28,7 @@ services:
     depends_on:
       - builder
       - db
-    image: mangosthree/realmd
+    image: realmd
     build: ./realmd
     ports:
       - "3724:3724"
@@ -43,7 +43,7 @@ services:
       - builder
       - db
       - realmd
-    image: mangosthree/server
+    image: server
     build: ./server
     volumes:
       - maps:/etc/mangos/maps
