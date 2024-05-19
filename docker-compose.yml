@@ -3,18 +3,6 @@ services:
     image: builder
     build: ./builder
 
-  extractor:
-    depends_on:
-      - builder
-    image: extractor
-    build: ./extractor
-    volumes:
-      - cata_client:/etc/mangos/cata_client
-      - maps:/etc/mangos/maps
-      - vmaps:/etc/mangos/vmaps
-      - mmaps:/etc/mangos/mmaps
-      - dbc:/etc/mangos/dbc
-
   db:
     image: database
     build: ./database
@@ -64,4 +52,3 @@ volumes:
     vmaps:
     mmaps:
     dbc:
-    cata_client:
