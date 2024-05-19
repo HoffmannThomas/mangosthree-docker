@@ -17,7 +17,9 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libmariadbclient.so /usr/lib/x86_64-linux-gn
     useradd -ms /bin/bash mangos && \
     chmod -R a+x . && \
     mkdir conf && \
-    mv mangosd.conf.dist conf/mangosd.conf
+    mkdir bin && \
+    mv mangosd.conf.dist conf/mangosd.conf && \
+    mv mangosd bin/mangosd
 RUN sed -i 's/^LoginDatabaseInfo            =.*$/LoginDatabaseInfo            = LOGIN_DATABASE_INFO/' conf/mangosd.conf && \
     sed -i 's/^WorldDatabaseInfo            =.*$/WorldDatabaseInfo            = WORLD_DATABASE_INFO/' conf/mangosd.conf && \
     sed -i 's/^CharacterDatabaseInfo        =.*$/CharacterDatabaseInfo        = CHARACTER_DATABASE_INFO/' conf/mangosd.conf && \

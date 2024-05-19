@@ -15,7 +15,9 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libmariadbclient.so /usr/lib/x86_64-linux-gn
 RUN useradd -ms /bin/bash realm && \
     chmod -R a+x . && \
     mkdir conf && \
-    mv realmd.conf.dist conf/realmd.conf
+    mkdir bin && \
+    mv realmd.conf.dist conf/realmd.conf && \
+    mv realmd bin/realmd
 RUN sed -i 's/^LoginDatabaseInfo      =.*$/LoginDatabaseInfo      = LOGIN_DATABASE_INFO/' conf/realmd.conf && \
     chown -R realm:realm .
 RUN rm -rf /var/lib/apt/lists/*
