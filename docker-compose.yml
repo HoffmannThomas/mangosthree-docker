@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   builder:
     image: mangosthree/builder
@@ -11,55 +9,54 @@ services:
     image: mangosthree/extractor
     build: ./extractor
     volumes:
-     volumes:
-       - cata_client:/etc/mangos/cata_client
-       - maps:/etc/mangos/maps
-       - vmaps:/etc/mangos/vmaps
-       - mmaps:/etc/mangos/mmaps
-       - dbc:/etc/mangos/dbc
+      - cata_client:/etc/mangos/cata_client
+      - maps:/etc/mangos/maps
+      - vmaps:/etc/mangos/vmaps
+      - mmaps:/etc/mangos/mmaps
+      - dbc:/etc/mangos/dbc
+   
+    db:
+      image: mangosthree/database
+      build: ./database
+      volumes:
+        - db_data:/var/lib/mysql
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: mangos
+   
+    realmd:
+      depends_on:
+        - mangosthree/builder
+        - db
+      image: mangosthree/realmd
+      build: ./realmd
+      ports:
+        - "3724:3724"
+      restart: always
+      environment:
+        LOGIN_DATABASE_INFO: db;3306;root;mangos;realmd
 
-   db:
-     image: mangosthree/database
-     build: ./database
-     volumes:
-       - db_data:/var/lib/mysql
-     restart: always
-     environment:
-       MYSQL_ROOT_PASSWORD: mangos
-
-   realmd:
-     depends_on:
-       - mangosthree/builder
-       - db
-     image: mangosthree/realmd
-     build: ./realmd
-     ports:
-       - "3724:3724"
-     restart: always
-     environment:
-       LOGIN_DATABASE_INFO: db;3306;root;mangos;realmd
-
-   server:
-     tty: true
-     stdin_open: true
-     depends_on:
-       - mangosthree/builder
-       - db
-       - realmd
-     image: mangosthree/server
-     build: ./server
-     volumes:
-       - maps:/etc/mangos/maps
-       - vmaps:/etc/mangos/vmaps
-       - mmaps:/etc/mangos/mmaps
-       - dbc:/etc/mangos/dbc
-     ports:
-       - "8085:8085"
-     restart: always
-     environment:
-       LOGIN_DATABASE_INFO: db;3306;root;mangos;realmd
-       WORLD_DATABASE_INFO: db;3306;root;mangos;mangos3
-       CHARACTER_DATABASE_INFO: db;3306;root;mangos;character3
+    server:
+      tty: true
+      stdin_open: true
+      depends_on:
+        - mangosthree/builder
+        - db
+        - realmd
+      image: mangosthree/server
+      build: ./server
+      volumes:
+        - maps:/etc/mangos/maps
+        - vmaps:/etc/mangos/vmaps
+        - mmaps:/etc/mangos/mmaps
+        - dbc:/etc/mangos/dbc
+      ports:
+        - "8085:8085"
+      restart: always
+      environment:
+        LOGIN_DATABASE_INFO: db;3306;root;mangos;realmd
+        WORLD_DATABASE_INFO: db;3306;root;mangos;mangos3
+        CHARACTER_DATABASE_INFO: db;3306;root;mangos;character3
 volumes:
     db_data:
     maps:
