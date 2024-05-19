@@ -5,7 +5,7 @@ services:
 
   extractor:
     depends_on:
-      - mangosthree/builder
+      - builder
     image: mangosthree/extractor
     build: ./extractor
     volumes:
@@ -26,7 +26,7 @@ services:
   
   realmd:
     depends_on:
-      - mangosthree/builder
+      - builder
       - db
     image: mangosthree/realmd
     build: ./realmd
@@ -40,7 +40,7 @@ services:
     tty: true
     stdin_open: true
     depends_on:
-      - mangosthree/builder
+      - builder
       - db
       - realmd
     image: mangosthree/server
@@ -57,7 +57,7 @@ services:
       LOGIN_DATABASE_INFO: db;3306;root;mangos;realmd
       WORLD_DATABASE_INFO: db;3306;root;mangos;mangos3
       CHARACTER_DATABASE_INFO: db;3306;root;mangos;character3
-      
+
 volumes:
     db_data:
     maps:
